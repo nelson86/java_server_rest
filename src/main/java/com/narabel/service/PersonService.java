@@ -15,18 +15,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 
-import com.narabel.dao.PersonaDaoImpl;
-import com.narabel.entity.Persona;
+import com.narabel.dao.PersonDaoImpl;
+import com.narabel.entity.Person;
 
-@Path("/personas")
-public class PersonaService  implements ExceptionMapper<Exception>{
+@Path("/person")
+public class PersonService  implements  ExceptionMapper<Exception>{
 	
 	private static List<String> lista = new ArrayList();
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response listar() {
-		GenericEntity<List<Persona>> entities = new GenericEntity<List<Persona>>(new PersonaDaoImpl().findAll()){};
+		GenericEntity<List<Person>> entities = new GenericEntity<List<Person>>(new PersonDaoImpl().findAll()){};
 		return Response.ok(entities).build();
 	}
 
@@ -34,7 +34,7 @@ public class PersonaService  implements ExceptionMapper<Exception>{
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Path("{id}")
 	public Response obtenerPorId(@PathParam("id") int id) {
-		List<Persona> personas = new PersonaDaoImpl().findAll();
+		List<Person> personas = new PersonDaoImpl().findAll();
 		try {
 			return Response.ok(personas.get(id)).build();
 		} catch (Exception e) {
@@ -47,7 +47,7 @@ public class PersonaService  implements ExceptionMapper<Exception>{
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public Response nueva(Persona persona) {
+	public Response nueva(Person persona) {
 		try {
 			return Response.ok().entity(persona).build();
 		} catch (Exception e) {
@@ -61,5 +61,28 @@ public class PersonaService  implements ExceptionMapper<Exception>{
 		 exception.printStackTrace();
 		 return Response.serverError().entity(exception.getMessage()).build();
 	}
+
+/*
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response findAll() {
+		GenericEntity<List<Person>> entities = new GenericEntity<List<Person>>(personaDao.findAll()){};
+		return Response.ok(entities).build();
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("{id}")
+	public Response findById(@PathParam("id") int id) {
+		List<Person> personas = new PersonDaoImpl().findAll();
+		try {
+			return Response.ok(personas.get(id)).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+*/
 
 }
