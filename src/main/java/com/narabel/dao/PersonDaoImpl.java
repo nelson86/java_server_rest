@@ -3,11 +3,14 @@ package com.narabel.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.jvnet.hk2.annotations.Service;
+
 import com.narabel.entity.Person;
 
 
 public class PersonDaoImpl implements IPersonDao {
-
 
 	public List<Person> findAll() {
 		List<Person> personas = new ArrayList<Person>();

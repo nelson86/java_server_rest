@@ -1,8 +1,8 @@
 package com.narabel.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,18 +15,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 
+import com.narabel.dao.IPersonDao;
 import com.narabel.dao.PersonDaoImpl;
 import com.narabel.entity.Person;
 
 @Path("/person")
-public class PersonService  implements  ExceptionMapper<Exception>{
-	
-	private static List<String> lista = new ArrayList();
+public class PersonService  implements ExceptionMapper<Exception>{
+
+	@Inject
+	IPersonDao dao;
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response listar() {
-		GenericEntity<List<Person>> entities = new GenericEntity<List<Person>>(new PersonDaoImpl().findAll()){};
+		List<Person> personas = dao.findAll();
+		GenericEntity<List<Person>> entities = new GenericEntity<List<Person>>(personas){};
 		return Response.ok(entities).build();
 	}
 
